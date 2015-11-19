@@ -1,0 +1,3 @@
+class InfiniteException < Exception
+
+end
