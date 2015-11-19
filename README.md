@@ -9,7 +9,8 @@ Please note that this gem is created with single purpose of improving Ruby skill
 
 Install it as:
 
-    $ gem install ./money-test-0.0.0.gem
+    $ gem build money.gemspec
+    $ gem install ./money_test-0.0.0.gem
     
 ## Features
 
@@ -36,7 +37,7 @@ fifty_eur = Money.new(50, 'EUR')
 
 # Get amount and currency:
 
-fifty_eur.amount   # => 50
+fifty_eur.amount   # => 50.0
 fifty_eur.currency # => "EUR"
 fifty_eur.inspect  # => "50.00 EUR"
 

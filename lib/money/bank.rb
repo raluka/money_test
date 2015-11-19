@@ -11,11 +11,11 @@ class Bank
   end
 
   # Allows to add new exchange rate
-  def add_rate(base_currency, currency_to, rate)
-    if @exchange_rates.has_key?(base_currency)
-      update_rate(base_currency, currency_to, rate)
+  def add_rate(currency, currency_to, rate)
+    if @exchange_rates.has_key?(currency)
+      update_rate(currency, currency_to, rate)
     else
-      create_rate(base_currency, currency_to, rate)
+      create_rate(currency, currency_to, rate)
     end
   end
 
@@ -30,13 +30,13 @@ class Bank
 
   private
   # Creates exchange rate for a new currency
-  def create_rate(base_currency, currency_to, rate)
-    @exchange_rates.store(base_currency, {currency_to => rate})
+  def create_rate(currency, currency_to, rate)
+    @exchange_rates.store(currency, {currency_to => rate})
   end
 
   # Updates exchange rate for a currency
-  def update_rate(base_currency, currency_to, rate)
-    @exchange_rates[base_currency][currency_to] = rate
+  def update_rate(currency, currency_to, rate)
+    @exchange_rates[currency][currency_to] = rate
   end
 
   # Checks if it is an exchange rate
