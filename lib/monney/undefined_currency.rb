@@ -1,2 +1,0 @@
-class UndefinedCurrency < StandardError
-end

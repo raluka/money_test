@@ -1,3 +1,0 @@
-class InfiniteException < Exception
-
-end
