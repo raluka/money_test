@@ -6,7 +6,7 @@ describe Money do
     it 'should be initialized with amount and currency' do
       fifty_eur = Money.new(50, 'EUR')
       expect(fifty_eur.amount).to eq(50)
-      expect(fifty_eur.currency).to eq('EUR')
+      expect(fifty_eur.base_currency).to eq('EUR')
     end
   end
 

@@ -30,6 +30,7 @@ require 'money'
 # This can and should be set at the beginning of project.
 
 Money.conversion_rates('EUR', { 'USD' => 1.11, 'Bitcoin' => 0.0047 })
+Money.conversion_rates('USD', { 'EUR' => 0.9009 })
 
 # Instantiate money objects:
 
@@ -38,7 +39,7 @@ fifty_eur = Money.new(50, 'EUR')
 # Get amount and currency:
 
 fifty_eur.amount   # => 50.0
-fifty_eur.currency # => "EUR"
+fifty_eur.base_currency # => "EUR"
 fifty_eur.inspect  # => "50.00 EUR"
 
 # Convert to a different currency (returns a Money instance):

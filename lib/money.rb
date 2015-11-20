@@ -10,25 +10,25 @@ class Money
 #  attr_reader :amount returns defined quantity of Money
 #  attr_reader :currency returns defined currency for Money
 #  attr_reader :bank returns Bank.instance which performs currency exchanges
-  attr_reader :amount, :currency, :bank
+  attr_reader :amount, :base_currency, :bank
 
 # Creates a new instance of Money with value, currency, and associated Bank. It returns a Money object.
   def initialize(amount, currency)
     @amount = amount.to_f.round(2)
-    @currency = currency
+    @base_currency = currency
     @bank = Bank.instance
   end
 
 # Returns a string containing a human-readable representation of obj.
   def inspect
-    "#{"%0.02f" % @amount} #{@currency}"
+    "#{"%0.02f" % @amount} #{@base_currency}"
   end
 
 # Compares equality between two amounts of money.
   def <=>(other)
     raise TypeError unless other.is_a?(Money)
-    if self.currency != other.currency
-      other = other.convert_to(self.currency)
+    if self.base_currency != other.base_currency
+      other = other.convert_to(self.base_currency)
     end
     self.amount <=> other.amount
   end
@@ -36,7 +36,7 @@ class Money
 # Multiplies an amount of money by a factor
   def *(factor)
     if factor.is_a?(Numeric)
-      Money.new(amount * factor, currency)
+      Money.new(amount * factor, base_currency)
     else
       raise TypeError
     end
@@ -48,7 +48,7 @@ class Money
       if factor == 0
         raise InfiniteException
       else
-        Money.new(amount / factor, currency)
+        Money.new(amount / factor, base_currency)
       end
     else
       raise TypeError
@@ -58,20 +58,20 @@ class Money
 # Add two amounts of money, with currency conversion if needed
   def +(other)
     raise TypeError unless other.is_a?(Money)
-    if self.currency == other.currency
-      Money.new(amount + other.amount, currency)
+    if self.base_currency == other.base_currency
+      Money.new(amount + other.amount, base_currency)
     else
-      Money.new(amount + other.convert_to(self.currency).amount, currency)
+      Money.new(amount + other.convert_to(self.base_currency).amount, base_currency)
     end
   end
 
 # Subtract two amounts of money, with currency conversion if needed
   def -(other)
     raise TypeError unless other.is_a?(Money)
-    if self.currency == other.currency
-      Money.new(amount - other.amount, currency)
+    if self.base_currency == other.base_currency
+      Money.new(amount - other.amount, base_currency)
     else
-      Money.new(amount - other.convert_to(self.currency).amount, currency)
+      Money.new(amount - other.convert_to(self.base_currency).amount, base_currency)
     end
   end
 
@@ -93,6 +93,6 @@ class Money
 
 # Gets from Bank the exchange rate of currency
   def exchange_rate(to_currency)
-    self.bank.exchange(self.currency, to_currency)
+    self.bank.exchange(self.base_currency, to_currency)
   end
 end
